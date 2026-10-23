@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# Build
+build/
+dist/
+
+# Secrets
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Generated data and models
+data/documents/*
+!data/documents/.gitkeep
+models/
+outputs/
