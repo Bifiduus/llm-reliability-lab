@@ -55,16 +55,16 @@ Evaluate the retrieval methods:
 python src/evaluate_retrieval.py
 ```
 
+Ollama must be running to evaluate the RAG pipelines. If necessary, start it with (if 'adress already in use', run the next command):
+
+```bash
+ollama serve
+```
+
 Generate answers with the complete RAG pipelines:
 
 ```bash
 python src/generate_rag_answers.py
-```
-
-Ollama must be running to evaluate the RAG pipelines. If necessary, start it with:
-
-```bash
-ollama serve
 ```
 
 ### Reproducibility
