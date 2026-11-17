@@ -55,17 +55,26 @@ Evaluate the retrieval methods:
 python src/evaluate_retrieval.py
 ```
 
-Ollama must be running to evaluate the RAG pipelines. If necessary, start it with (if 'adress already in use', run the next command):
+Retrieve the most relevant chunks for each benchmark question using the different retrieval methods:
+
+```bash
+python src/retrieve_rag_contexts.py
+```
+The retrieved contexts are saved to results/retrieved_contexts.json.
+
+Ollama must be running to evaluate the RAG pipelines. If necessary, start it with:
 
 ```bash
 ollama serve
 ```
+If the address is already in use, Ollama is likely already running.
 
-Generate answers with the complete RAG pipelines:
+Generate answers using the previously retrieved contexts:
 
 ```bash
 python src/generate_rag_answers.py
 ```
+The generated answers are saved incrementally to results/rag_results.json, allowing generation to resume after an interruption.
 
 ### Reproducibility
 

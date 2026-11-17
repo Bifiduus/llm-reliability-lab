@@ -2,12 +2,6 @@ import json
 from pathlib import Path
 
 from reliability_lab.ingestion import Chunk
-from reliability_lab.retrieval import (
-    BM25Retriever,
-    DenseRetriever,
-    HybridRetriever,
-    RerankerRetriever,
-)
 from reliability_lab.generation import RAGGenerator
 
 
@@ -15,30 +9,16 @@ def main():
     with Path("data/benchmark/chunks.json").open(encoding="utf-8") as f:
         chunks = [Chunk(**data) for data in json.load(f)]
 
-    with Path("data/benchmark/questions.json").open(encoding="utf-8") as f:
-        questions = json.load(f)
+    chunks_by_id = {chunk.id: chunk for chunk in chunks}
 
-    bm25 = BM25Retriever(chunks)
-    dense = DenseRetriever(chunks)
-    hybrid = HybridRetriever(bm25, dense)
-    reranker = RerankerRetriever(hybrid)
-
-    retrievers = {
-        "BM25": bm25,
-        "Dense": dense,
-        "Hybrid": hybrid,
-        "Reranker": reranker,
-    }
-
-    generator = RAGGenerator()
-    top_k = 5
+    with Path("results/retrieved_contexts.json").open(encoding="utf-8") as f:
+        contexts = json.load(f)
 
     output_dir = Path("results")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     output_path = output_dir / "rag_results.json"
 
-    # Load previously saved results, if any.
     if output_path.exists():
         with output_path.open(encoding="utf-8") as f:
             results = json.load(f)
@@ -50,57 +30,47 @@ def main():
         for result in results
     }
 
-    for name, retriever in retrievers.items():
-        print(f"\n========== {name} ==========")
+    generator = RAGGenerator()
 
-        for question in questions:
-            key = (name, question["id"], top_k)
+    for context in contexts:
+        key = (
+            context["retriever"],
+            context["question_id"],
+            context["top_k"],
+        )
 
-            if key in completed:
-                print(f"Skipping {name} / {question['id']}")
-                continue
+        if key in completed:
+            print(
+                f"Skipping {context['retriever']} / {context['question_id']}")
+            continue
 
-            retrieved = retriever.search(
-                question["question"],
-                top_k=top_k,
-            )
+        retrieved = [
+            chunks_by_id[chunk_id]
+            for chunk_id in context["retrieved_chunk_ids"]
+        ]
 
-            answer = generator.generate(
-                question["question"],
-                retrieved,
-            )
+        answer = generator.generate(
+            context["question"],
+            retrieved,
+        )
 
-            result = {
-                "question_id": question["id"],
-                "question": question["question"],
-                "reference_answer": question["answer"],
-                "answerable": question["answerable"],
-                "retriever": name,
-                "top_k": top_k,
-                "retrieved_chunk_ids": [
-                    chunk.id for chunk in retrieved
-                ],
-                "generated_answer": answer,
-            }
+        result = {
+            **context,
+            "generated_answer": answer,
+        }
 
-            results.append(result)
+        results.append(result)
 
-            # Save after every successful generation.
-            temporary_path = output_path.with_suffix(".tmp")
+        temporary_path = output_path.with_suffix(".tmp")
 
-            with temporary_path.open("w", encoding="utf-8") as f:
-                json.dump(
-                    results,
-                    f,
-                    indent=2,
-                    ensure_ascii=False,
-                )
+        with temporary_path.open("w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2, ensure_ascii=False)
 
-            temporary_path.replace(output_path)
-            completed.add(key)
+        temporary_path.replace(output_path)
+        completed.add(key)
 
-            print(f"\nQuestion: {question['question']}")
-            print(f"Answer: {answer}")
+        print(f"\nQuestion: {context['question']}")
+        print(f"Answer: {answer}")
 
     print(f"\nResults saved to {output_path}")
 
