@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -34,12 +33,33 @@ def main():
     generator = RAGGenerator()
     top_k = 5
 
-    results = []
+    output_dir = Path("results")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = output_dir / "rag_results.json"
+
+    # Load previously saved results, if any.
+    if output_path.exists():
+        with output_path.open(encoding="utf-8") as f:
+            results = json.load(f)
+    else:
+        results = []
+
+    completed = {
+        (result["retriever"], result["question_id"], result["top_k"])
+        for result in results
+    }
 
     for name, retriever in retrievers.items():
         print(f"\n========== {name} ==========")
 
         for question in questions:
+            key = (name, question["id"], top_k)
+
+            if key in completed:
+                print(f"Skipping {name} / {question['id']}")
+                continue
+
             retrieved = retriever.search(
                 question["question"],
                 top_k=top_k,
@@ -65,16 +85,22 @@ def main():
 
             results.append(result)
 
+            # Save after every successful generation.
+            temporary_path = output_path.with_suffix(".tmp")
+
+            with temporary_path.open("w", encoding="utf-8") as f:
+                json.dump(
+                    results,
+                    f,
+                    indent=2,
+                    ensure_ascii=False,
+                )
+
+            temporary_path.replace(output_path)
+            completed.add(key)
+
             print(f"\nQuestion: {question['question']}")
             print(f"Answer: {answer}")
-
-    output_dir = Path("results")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    output_path = output_dir / "rag_results.json"
-
-    with output_path.open("w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
 
     print(f"\nResults saved to {output_path}")
 
