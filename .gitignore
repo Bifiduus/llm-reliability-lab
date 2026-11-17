@@ -1,27 +1,34 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-
-# Virtual environment
+# Python virtual environments
 .venv/
 venv/
+env/
 
-# Build
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Python packaging
+*.egg-info/
 build/
 dist/
-
-# Secrets
-.env
-.env.*
 
 # IDE
 .vscode/
 .idea/
 
-# Generated data and models
-data/documents/*
-!data/documents/.gitkeep
-models/
-outputs/
+# Downloaded documents
+data/documents/*.pdf
+
+# Generated benchmark data
+data/benchmark/chunks.json
+
+# Generated results
+results/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Project Context for AI Assistant
+PROJECT_CONTEXT.md

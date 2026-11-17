@@ -1,0 +1,149 @@
+[
+    {
+        "id": "q001",
+        "question": "What mechanism replaces recurrence in the Transformer architecture?",
+        "answer": "The Transformer relies entirely on attention mechanisms rather than recurrence.",
+        "relevant_chunk_ids": [
+            "attention_is_all_you_need_p2_c1"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q002",
+        "question": "Why does the Transformer use positional encodings?",
+        "answer": "To provide information about the absolute or relative positions of tokens in a sequence.",
+        "relevant_chunk_ids": [
+            "attention_is_all_you_need_p6_c0"
+        ],
+        "answerable": true,
+        "category": "explanation"
+    },
+    {
+        "id": "q003",
+        "question": "What type of architecture does Dense Passage Retrieval use to learn question and passage representations?",
+        "answer": "A dual-encoder architecture that learns dense representations of questions and passages.",
+        "relevant_chunk_ids": [
+            "dense_retrieval_p1_c0",
+            "dense_retrieval_p2_c0"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q004",
+        "question": "Why can dense retrieval find relevant passages that keyword-based retrieval might miss?",
+        "answer": "Dense representations can place semantically similar expressions, including synonyms or paraphrases with different tokens, near one another in vector space.",
+        "relevant_chunk_ids": [
+            "dense_retrieval_p1_c2"
+        ],
+        "answerable": true,
+        "category": "explanation"
+    },
+    {
+        "id": "q005",
+        "question": "What two types of memory are combined in the RAG architecture?",
+        "answer": "Parametric memory in a pretrained sequence-to-sequence model and non-parametric memory in a dense Wikipedia vector index.",
+        "relevant_chunk_ids": [
+            "rag_p1_c0",
+            "rag_p1_c1"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q006",
+        "question": "What is the difference between RAG-Sequence and RAG-Token?",
+        "answer": "RAG-Sequence uses a single retrieved document to condition the whole generated sequence, while RAG-Token can use different retrieved documents for different generated tokens.",
+        "relevant_chunk_ids": [
+            "rag_p3_c0"
+        ],
+        "answerable": true,
+        "category": "comparison"
+    },
+    {
+        "id": "q007",
+        "question": "What is the main purpose of Sentence-BERT?",
+        "answer": "To produce semantically meaningful sentence embeddings that can be efficiently compared using measures such as cosine similarity.",
+        "relevant_chunk_ids": [
+            "sentence_bert_p1_c0"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q008",
+        "question": "What neural network structures does Sentence-BERT use to produce sentence embeddings?",
+        "answer": "Siamese and triplet network structures built on pretrained BERT.",
+        "relevant_chunk_ids": [
+            "sentence_bert_p1_c0",
+            "sentence_bert_p1_c1"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q009",
+        "question": "How does the position of relevant information in a long context affect language model performance?",
+        "answer": "Performance is often higher when relevant information is at the beginning or end of the context and lower when it is in the middle.",
+        "relevant_chunk_ids": [
+            "lost_in_the_middle_p1_c0"
+        ],
+        "answerable": true,
+        "category": "explanation"
+    },
+    {
+        "id": "q010",
+        "question": "Which two tasks are used in Lost in the Middle to study how language models use long contexts?",
+        "answer": "Multi-document question answering and key-value retrieval.",
+        "relevant_chunk_ids": [
+            "lost_in_the_middle_p1_c0"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q011",
+        "question": "Which similarity measure is used to compare Sentence-BERT sentence embeddings?",
+        "answer": "Cosine similarity.",
+        "relevant_chunk_ids": [
+            "sentence_bert_p1_c0"
+        ],
+        "answerable": true,
+        "category": "factual"
+    },
+    {
+        "id": "q012",
+        "question": "What does retrieval collapse mean in the RAG paper?",
+        "answer": "The retriever learns to retrieve the same documents regardless of the input, and the generator may learn to ignore those documents.",
+        "relevant_chunk_ids": [
+            "rag_p19_c1"
+        ],
+        "answerable": true,
+        "category": "explanation"
+    },
+    {
+        "id": "q013",
+        "question": "What was the exact electricity consumption of GPT-4 during its original training?",
+        "answer": null,
+        "relevant_chunk_ids": [],
+        "answerable": false,
+        "category": "unanswerable"
+    },
+    {
+        "id": "q014",
+        "question": "What is the current market price of an NVIDIA H100 GPU in France?",
+        "answer": null,
+        "relevant_chunk_ids": [],
+        "answerable": false,
+        "category": "unanswerable"
+    },
+    {
+        "id": "q015",
+        "question": "What exact percentage of ChatGPT users worldwide used RAG-based applications in October 2026?",
+        "answer": null,
+        "relevant_chunk_ids": [],
+        "answerable": false,
+        "category": "unanswerable"
+    }
+]
